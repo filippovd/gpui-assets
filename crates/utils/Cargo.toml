@@ -1,0 +1,9 @@
+[package]
+name = "gpui-assets-utils"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]

@@ -1,0 +1,15 @@
+[package]
+name = "example-assets"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+gpui-assets = { path = "../../crates/assets" }
+gpui-lucide = { path = "../../crates/lucide" }
+gpui-mdi = { path = "../../crates/mdi" }
+gpui = { workspace = true }
+gpui_platform = { workspace = true }
+gpui-component = { workspace = true }
+gpui-component-assets = { workspace = true }

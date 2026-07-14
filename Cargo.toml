@@ -1,0 +1,31 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/assets",
+    "crates/macros",
+    "crates/utils",
+    "crates/lucide",
+    "crates/mdi",
+    "examples/example-assets",
+    "examples/example-gallery",
+]
+
+[workspace.package]
+edition = "2024"
+version = "0.1.0"
+authors = ["Dmitry Filippov <filippov.dmitry@gmail.com>"]
+license = "Apache-2.0"
+publish = false
+
+[workspace.dependencies]
+gpui = { git = "https://github.com/zed-industries/zed" }
+gpui_platform = { git = "https://github.com/zed-industries/zed", features = ["font-kit", "wayland", "x11"] }
+gpui-component = { git = "https://github.com/longbridge/gpui-component" }
+gpui-component-assets = { git = "https://github.com/longbridge/gpui-component" }
+rust-embed = { version = "8", features = ["interpolate-folder-path"] }
+nucleo-matcher = "0.3.1"
+anyhow = "1"
+tempfile = "3"
+proc-macro2 = "1"
+quote = "1"
+syn = "2"

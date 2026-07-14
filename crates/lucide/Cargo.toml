@@ -1,0 +1,14 @@
+[package]
+name = "gpui-lucide"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+
+[dependencies]
+gpui-assets = { path = "../assets" }
+gpui-assets-macros = { path = "../macros" }
+
+gpui = { workspace = true }
+gpui-component = { workspace = true }
+rust-embed = { workspace = true }
