@@ -6,8 +6,8 @@ authors.workspace = true
 license.workspace = true
 
 [dependencies]
-gpui-assets = { path = "../assets" }
-gpui-assets-macros = { path = "../macros" }
+gpui-assets = { workspace = true }
+gpui-assets-macros = { workspace = true }
 
 gpui = { workspace = true }
 gpui-component = { workspace = true }
