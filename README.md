@@ -18,7 +18,8 @@ gpui-assets/
 │   └── mdi/                   # Embedded Material Design Icons + generated icon enum
 ├── examples/
 │   ├── example-assets/        # Minimal GPUI window example
-│   └── example-gallery/       # Gallery of icons from all sources with search and source filter
+│   ├── example-gallery/       # Gallery of icons from all sources with search and source filter
+│   └── example-custom-prefix/ # Custom asset sources registered under non-default prefixes
 └── README.md / AGENTS.md
 ```
 
@@ -32,6 +33,7 @@ gpui-assets/
 | `gpui-mdi` | `MdiAssets` (RustEmbed-based `AssetSource`) and `MdiIcon` enum for bundled Material Design Icons. |
 | `example-assets` | Runnable example showing `AssetsRegistry` + `IconName::ArrowRight` + `LucideIcon::Table`. |
 | `example-gallery` | Gallery that renders icons from all bundled sources (Lucide, MDI, fallback) with search, source filter, theme/size controls, and a right-side info panel for copy/download actions. |
+| `example-custom-prefix` | Runnable example that defines its own `CustomLucideAssets`/`CustomMdiAssets` sources and registers them under custom prefixes. |
 
 ## Quick Start
 
@@ -82,6 +84,47 @@ let assets = AssetsRegistry::new()
 
 let app = gpui_platform::application().with_assets(assets);
 ```
+
+## Using in External Applications
+
+The crates in this workspace are not published to crates.io, so add them as git or path dependencies in your `Cargo.toml`:
+
+```toml
+[dependencies]
+gpui-assets = { git = "https://github.com/filippovd/gpui-assets" }
+gpui-lucide = { git = "https://github.com/filippovd/gpui-assets" }
+gpui-mdi = { git = "https://github.com/filippovd/gpui-assets" }
+
+gpui = { git = "https://github.com/zed-industries/zed" }
+gpui_platform = { git = "https://github.com/zed-industries/zed", features = ["font-kit", "wayland", "x11"] }
+gpui-component = { git = "https://github.com/longbridge/gpui-component" }
+gpui-component-assets = { git = "https://github.com/longbridge/gpui-component" }
+```
+
+Then wire the registry and use icons as shown above:
+
+```rust
+use gpui_assets::AssetsRegistry;
+use gpui_component::Icon;
+use gpui_lucide::{LucideAssets, icons::LucideIcon};
+use gpui_mdi::{MdiAssets, icons::MdiIcon};
+
+fn main() {
+    let assets = AssetsRegistry::new()
+        .use_source(LucideAssets)
+        .use_source(MdiAssets)
+        .fallback(gpui_component_assets::Assets);
+
+    let app = gpui_platform::application().with_assets(assets);
+
+    app.run(|cx| {
+        gpui_component::init(cx);
+        // open windows, render Icon::new(LucideIcon::Pin), etc.
+    });
+}
+```
+
+If you want to bundle your own subset of icons or use a different prefix, follow the pattern in `examples/example-custom-prefix/`: define a local `RustEmbed`-backed source, implement `PrefixedAssetSource`, generate an enum with `icon_named!`, and register it with `AssetsRegistry`.
 
 ## Adding a New Prefixed Asset Source
 
