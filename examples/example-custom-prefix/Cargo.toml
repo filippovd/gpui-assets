@@ -1,15 +1,18 @@
 [package]
-name = "gpui-lucide"
+name = "example-custom-prefix"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
+readme = "README.md"
 
 [dependencies]
 gpui-assets = { workspace = true }
 gpui-assets-macros = { workspace = true }
 
 gpui = { workspace = true }
+gpui_platform = { workspace = true }
 gpui-component = { workspace = true }
+gpui-component-assets = { workspace = true }
 rust-embed = { workspace = true }

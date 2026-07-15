@@ -8,6 +8,7 @@ members = [
     "crates/mdi",
     "examples/example-assets",
     "examples/example-gallery",
+    "examples/example-custom-prefix",
 ]
 
 [workspace.package]
@@ -15,6 +16,7 @@ edition = "2024"
 version = "0.1.0"
 authors = ["Dmitry Filippov <filippov.dmitry@gmail.com>"]
 description = "It provides a modular asset-management layer, an embedded Lucide icon set, and reusable UI examples."
+keywords = ["gpui", "assets", "icons", "lucide", "mdi"]
 license = "MIT or Apache-2.0"
 repository = "https://github.com/filippovd/gpui-assets"
 readme = "README.md"
@@ -30,6 +32,9 @@ gpui-lucide = { path = "crates/lucide", version = "0.1.0" }
 gpui-mdi = { path = "crates/mdi", version = "0.1.0" }
 gpui-assets-utils = { path = "crates/utils", version = "0.1.0" }
 
+#
+# External crates
+#
 gpui = { git = "https://github.com/zed-industries/zed", version = "0.2.2" }
 gpui_platform = { git = "https://github.com/zed-industries/zed", version = "0.1.0", features = ["font-kit", "wayland", "x11"] }
 gpui-component = { git = "https://github.com/longbridge/gpui-component", version = "0.5.1" }
