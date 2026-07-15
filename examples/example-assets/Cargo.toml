@@ -1,8 +1,10 @@
 [package]
 name = "example-assets"
-version.workspace = true
 edition.workspace = true
+version.workspace = true
 authors.workspace = true
+description = "Example assets for gpui-assets"
+keywords.workspace = true
 license.workspace = true
 repository.workspace = true
 readme = "README.md"

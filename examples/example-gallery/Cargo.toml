@@ -1,9 +1,13 @@
 [package]
 name = "example-gallery"
 version.workspace = true
-edition.workspace = true
 authors.workspace = true
+description = "A gallery of gpui assets examples"
+keywords.workspace = true
 license.workspace = true
+repository.workspace = true
+readme = "README.md"
+edition.workspace = true
 
 [dependencies]
 gpui-assets = { workspace = true }
