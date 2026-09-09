@@ -1,5 +1,4 @@
 use std::borrow::Cow;
-use std::path::PathBuf;
 
 use gpui::{AssetSource, Result, SharedString};
 use gpui_assets::PrefixedAssetSource;
@@ -32,9 +31,8 @@ pub const LUCIDE_PREFIX: &str = "lucide";
 pub struct LucideAssets;
 
 impl LucideAssets {
-    fn resolve(&self, path: &str) -> PathBuf {
-        let path = path.strip_prefix('/').unwrap_or(path);
-        PathBuf::from(path)
+    fn resolve<'a>(&self, path: &'a str) -> &'a str {
+        path.strip_prefix('/').unwrap_or(path)
     }
 }
 
@@ -46,16 +44,14 @@ impl PrefixedAssetSource for LucideAssets {
 
 impl AssetSource for LucideAssets {
     fn load(&self, path: &str) -> Result<Option<Cow<'static, [u8]>>> {
-        let full_path = self.resolve(path);
-        Ok(LucideAssets::get(&full_path.to_string_lossy()).map(|file| file.data))
+        Ok(LucideAssets::get(self.resolve(path)).map(|file| file.data))
     }
 
     fn list(&self, path: &str) -> Result<Vec<SharedString>> {
         let prefix = self.resolve(path);
-        let prefix = prefix.to_string_lossy();
 
         Ok(LucideAssets::iter()
-            .filter(|p| p.starts_with(prefix.as_ref()))
+            .filter(|p| p.starts_with(prefix))
             .map(SharedString::from)
             .collect())
     }

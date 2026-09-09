@@ -118,7 +118,6 @@ Add `"crates/heroicons"` to `[workspace.members]` in the root `Cargo.toml`.
 
 ```rust
 use std::borrow::Cow;
-use std::path::PathBuf;
 
 use gpui::{AssetSource, Result, SharedString};
 use rust_embed::RustEmbed;
@@ -132,27 +131,24 @@ pub const HEROICONS_PREFIX: &str = "heroicons";
 pub struct HeroiconsAssets;
 
 impl HeroiconsAssets {
-    fn resolve(&self, path: &str) -> PathBuf {
+    fn resolve<'a>(&self, path: &'a str) -> &'a str {
         // `AssetsRegistry` strips the prefix, leaving a leading `/` on the
         // path produced by `icon_named!`. Strip it so RustEmbed can look up
         // the file by its bare name.
-        let path = path.strip_prefix('/').unwrap_or(path);
-        PathBuf::from(path)
+        path.strip_prefix('/').unwrap_or(path)
     }
 }
 
 impl AssetSource for HeroiconsAssets {
     fn load(&self, path: &str) -> Result<Option<Cow<'static, [u8]>>> {
-        let full_path = self.resolve(path);
-        Ok(HeroiconsAssets::get(&full_path.to_string_lossy()).map(|file| file.data))
+        Ok(HeroiconsAssets::get(self.resolve(path)).map(|file| file.data))
     }
 
     fn list(&self, path: &str) -> Result<Vec<SharedString>> {
         let prefix = self.resolve(path);
-        let prefix = prefix.to_string_lossy();
 
         Ok(HeroiconsAssets::iter()
-            .filter(|p| p.starts_with(prefix.as_ref()))
+            .filter(|p| p.starts_with(prefix))
             .map(SharedString::from)
             .collect())
     }

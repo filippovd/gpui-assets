@@ -1,5 +1,4 @@
 use std::borrow::Cow;
-use std::collections::HashMap;
 
 use gpui::{AssetSource, Result, SharedString};
 
@@ -32,6 +31,10 @@ pub trait PrefixedAssetSource: AssetSource {
 /// prefix, the request is forwarded with the prefix stripped. Otherwise the global
 /// fallback source is used, if any.
 ///
+/// Sources are stored in a `Vec` and matched with a linear scan: the number of
+/// registered prefixes is expected to be tiny (a handful), so a scan avoids the
+/// hashing cost of a `HashMap` on every lookup.
+///
 /// Example:
 ///
 /// ```ignore
@@ -49,7 +52,7 @@ pub trait PrefixedAssetSource: AssetSource {
 /// ```
 #[derive(Default)]
 pub struct AssetsRegistry {
-    sources: HashMap<String, Box<dyn AssetSource>>,
+    sources: Vec<(String, Box<dyn AssetSource>)>,
     fallback: Option<Box<dyn AssetSource>>,
 }
 
@@ -95,9 +98,14 @@ impl AssetsRegistry {
     }
 
     /// Mutable variant of [`Self::use_prefix`].
+    ///
+    /// Re-registering an existing prefix replaces its source.
     pub fn add_prefix(&mut self, prefix: impl Into<String>, source: impl AssetSource) -> &mut Self {
         let prefix = normalize_prefix(prefix.into());
-        self.sources.insert(prefix, Box::new(source));
+        match self.sources.iter_mut().find(|(p, _)| *p == prefix) {
+            Some((_, slot)) => *slot = Box::new(source),
+            None => self.sources.push((prefix, Box::new(source))),
+        }
         self
     }
 
@@ -118,7 +126,7 @@ impl AssetsRegistry {
 
     /// Returns the set of registered prefixes.
     pub fn prefixes(&self) -> impl Iterator<Item = &str> {
-        self.sources.keys().map(|s| s.as_str())
+        self.sources.iter().map(|(prefix, _)| prefix.as_str())
     }
 
     /// Returns `true` if a fallback source has been configured.
@@ -130,7 +138,7 @@ impl AssetsRegistry {
         let (prefix, rest) = split_prefix(path);
 
         if let Some(prefix) = prefix
-            && let Some(source) = self.sources.get(prefix)
+            && let Some((_, source)) = self.sources.iter().find(|(p, _)| p.as_str() == prefix)
         {
             return (Some(source.as_ref()), rest);
         }
@@ -160,7 +168,14 @@ impl AssetSource for AssetsRegistry {
 impl std::fmt::Debug for AssetsRegistry {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("AssetsRegistry")
-            .field("sources", &self.sources.keys().collect::<Vec<_>>())
+            .field(
+                "sources",
+                &self
+                    .sources
+                    .iter()
+                    .map(|(prefix, _)| prefix)
+                    .collect::<Vec<_>>(),
+            )
             .field("fallback", &self.fallback.is_some())
             .finish()
     }
@@ -291,6 +306,37 @@ mod tests {
         let registry = AssetsRegistry::new().use_prefix("lucide", MockSource { name: "lucide" });
         let prefixes: Vec<_> = registry.prefixes().collect();
         assert_eq!(prefixes, vec!["lucide:"]);
+    }
+
+    #[test]
+    fn reregistering_prefix_replaces_source() {
+        let registry = AssetsRegistry::new()
+            .use_prefix("lucide", MockSource { name: "old" })
+            .use_prefix("lucide", MockSource { name: "new" });
+
+        assert_eq!(
+            registry.load("lucide:icon.svg").unwrap().unwrap().as_ref(),
+            b"new:icon.svg"
+        );
+
+        let prefixes: Vec<_> = registry.prefixes().collect();
+        assert_eq!(prefixes, vec!["lucide:"]);
+    }
+
+    #[test]
+    fn prefix_is_split_at_first_colon() {
+        let mut registry = AssetsRegistry::new();
+        registry
+            .add_prefix("a:b", MockSource { name: "nested" })
+            .set_fallback(MockSource { name: "fallback" });
+
+        // The first path segment `a:` is not registered, so even though the
+        // full prefix `a:b:` exists, the request falls back — matching the
+        // documented "split at the first `:`" rule.
+        assert_eq!(
+            registry.load("a:b:file.txt").unwrap().unwrap().as_ref(),
+            b"fallback:a:b:file.txt"
+        );
     }
 
     #[test]
