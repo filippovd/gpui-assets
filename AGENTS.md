@@ -277,11 +277,7 @@ Icon::new(HeroiconsIcon::ArrowRight);
 - Before changing the public API of `gpui-assets` (e.g. renaming `use_prefix`/`fallback`).
 - Before adding binary/example crates beyond `examples/example-assets`.
 
-## Skills Reference
+## Skills (reference docs for AI)
 
-This project has custom skills to assist with common development tasks:
-
-- **gpui** (`skills/`) - GPUI framework knowledge: actions/keybindings, async, context, custom elements, entity state, events, focus, global state, layout/styling, testing
-- **gpui-component** (`skills/`) - How to use gpui-component: setup, stateless/stateful patterns, common component APIs, theming
-
-When working on tasks related to these areas, agents will automatically use the appropriate skill to provide specialized guidance and patterns.
+- **gpui-kit** (`skills/`) - Building applications on the `gpui-kit` crate: setup, component catalog, stateless/stateful patterns, theming, GPUI mechanics (actions, async, contexts, custom elements, entities, events, focus, global state, layout, `ElementId`, testing), and the normative Coding Guides
+- **gpui-kit-design-guides** (`skills/`) - The normative Design Guides; load before any UI, layout, interaction, or interface-copy work
