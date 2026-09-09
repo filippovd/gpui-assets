@@ -1,5 +1,5 @@
-use gpui::*;
-use gpui_component::{
+use gpui_kit::*;
+use gpui_kit::component::{
     button::{Button, ButtonVariants as _},
     *,
 };
@@ -132,7 +132,7 @@ impl Render for IconDemo {
                             .v_flex()
                             .gap_3()
                             .items_center()
-                            .child("gpui-component")
+                            .child("gpui-kit")
                             .child(icon_grid(gpui_icons, &ICON_SIZES)),
                     )
                     .child(
@@ -165,12 +165,12 @@ fn main() {
     let assets = gpui_assets::AssetsRegistry::new()
         .use_source(LucideAssets)
         .use_source(MdiAssets)
-        .fallback(gpui_component_assets::Assets);
-    let app = gpui_platform::application().with_assets(assets);
+        .fallback(gpui_kit::assets::Assets);
+    let app = gpui_kit::application().with_assets(assets);
 
     app.run(move |cx| {
-        // This must be called before using any GPUI Component features.
-        gpui_component::init(cx);
+        // This must be called before using any GPUI Kit features.
+        gpui_kit::init(cx);
 
         cx.spawn(async move |cx| {
             cx.open_window(WindowOptions::default(), |window, cx| {

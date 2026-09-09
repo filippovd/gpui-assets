@@ -1,6 +1,6 @@
 # gpui-mdi
 
-Embedded [Material Design Icons](https://pictogrammers.com/library/mdi/) for [Zed GPUI](https://github.com/zed-industries/zed) and [gpui-component](https://github.com/longbridge/gpui-component).
+Embedded [Material Design Icons](https://pictogrammers.com/library/mdi/) for [GPUI Kit](https://gpui-kit.com) (`gpui-kit`).
 
 This crate bundles SVG icons at compile time via [`rust-embed`](https://github.com/pyrossh/rust-embed) and exposes them as:
 
@@ -13,7 +13,7 @@ This crate bundles SVG icons at compile time via [`rust-embed`](https://github.c
 ### As an icon
 
 ```rust
-use gpui_component::Icon;
+use gpui_kit::component::Icon;
 use gpui_mdi::icons::MdiIcon;
 
 Icon::new(MdiIcon::Check);
@@ -27,7 +27,7 @@ use gpui_mdi::MdiAssets;
 
 let assets = AssetsRegistry::new()
     .use_source(MdiAssets)
-    .fallback(gpui_component_assets::Assets);
+    .fallback(gpui_kit::assets::Assets);
 ```
 
 Each variant implements `IconNamed`, so `MdiIcon::Check.path()` returns `mdi:/check.svg`. `AssetsRegistry` routes prefixed paths to the corresponding source.

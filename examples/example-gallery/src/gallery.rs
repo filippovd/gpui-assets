@@ -12,9 +12,9 @@ use std::rc::Rc;
 use std::sync::Arc;
 use std::time::Duration;
 
-use gpui::prelude::FluentBuilder;
-use gpui::*;
-use gpui_component::{
+use gpui_kit::prelude::FluentBuilder;
+use gpui_kit::*;
+use gpui_kit::component::{
     ActiveTheme, Icon, Root, Selectable, Sizable, StyledExt, Theme, ThemeMode, TitleBar,
     button::{Button, ButtonGroup, ButtonVariants},
     input::{Input, InputState},
@@ -383,7 +383,7 @@ impl Render for IconGallery {
                     .overflow_hidden()
                     .child(
                         // Custom window title bar: the app title sits next to the search
-                        // input (the "Title Bar with Search" pattern from gpui-component).
+                        // input (the "Title Bar with Search" pattern from gpui-kit).
                         // The title bar's inner row is `justify_between`, so a second
                         // child (About) is pushed to the right edge.
                         TitleBar::new()

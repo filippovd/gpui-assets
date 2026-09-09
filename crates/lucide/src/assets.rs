@@ -23,7 +23,7 @@ pub const LUCIDE_PREFIX: &str = "lucide";
 ///
 /// let assets = AssetsRegistry::new()
 ///     .use_source(LucideAssets)
-///     .fallback(gpui_component_assets::Assets);
+///     .fallback(gpui_kit::assets::Assets);
 /// ```
 #[derive(RustEmbed)]
 #[folder = "../../assets/lucide/icons"]

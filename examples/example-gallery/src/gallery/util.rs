@@ -3,8 +3,8 @@
 
 use std::path::PathBuf;
 
-use gpui::WindowAppearance;
-use gpui_component::ThemeMode;
+use gpui_kit::WindowAppearance;
+use gpui_kit::component::ThemeMode;
 use gpui_lucide::LucideAssets;
 use gpui_mdi::MdiAssets;
 
@@ -53,7 +53,7 @@ pub(crate) fn load_svg_content(entry: &IconEntry) -> Option<String> {
             let name = file_name_from_path(entry.path.as_ref());
             MdiAssets::get(name)?.data
         }
-        IconSource::Fallback => gpui_component_assets::Assets::get(entry.path.as_ref())?.data,
+        IconSource::Fallback => gpui_kit::assets::Assets::get(entry.path.as_ref())?.data,
         IconSource::All => return None,
     };
     String::from_utf8(bytes.into_owned()).ok()

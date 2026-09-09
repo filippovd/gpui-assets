@@ -4,7 +4,7 @@ A searchable, filterable icon gallery that showcases every icon from the registe
 
 ## Features
 
-- **Source filter** — switch between Lucide, Material Design Icons, and the gpui-component fallback.
+- **Source filter** — switch between Lucide, Material Design Icons, and the gpui-kit fallback.
 - **Live search** — fuzzy-ish filtering by variant name with debounced background processing.
 - **Size selector** — Small / Medium / Large grid cells.
 - **Theme selector** — Light, Dark, or System appearance.
@@ -30,9 +30,9 @@ cargo run -p example-gallery
 let assets = gpui_assets::AssetsRegistry::new()
     .use_source(LucideAssets)
     .use_source(MdiAssets)
-    .fallback(gpui_component_assets::Assets);
+    .fallback(gpui_kit::assets::Assets);
 
-let app = gpui_platform::application().with_assets(assets);
+let app = gpui_kit::application().with_assets(assets);
 ```
 
 The gallery builds the full icon index on a background thread so the window opens immediately, then re-runs filtering off the UI thread as the user types.

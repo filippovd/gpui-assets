@@ -23,7 +23,7 @@ pub const MDI_PREFIX: &str = "mdi";
 ///
 /// let assets = AssetsRegistry::new()
 ///     .use_source(MdiAssets)
-///     .fallback(gpui_component_assets::Assets);
+///     .fallback(gpui_kit::assets::Assets);
 /// ```
 #[derive(RustEmbed)]
 #[folder = "../../assets/mdi/icons"]

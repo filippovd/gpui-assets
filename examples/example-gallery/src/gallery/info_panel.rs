@@ -4,9 +4,9 @@
 
 use std::fs;
 
-use gpui::*;
-use gpui::{ClipboardItem, IntoElement, Window};
-use gpui_component::{
+use gpui_kit::*;
+use gpui_kit::{ClipboardItem, IntoElement, Window};
+use gpui_kit::component::{
     ActiveTheme as _, Icon, IconName, StyledExt, WindowExt as _,
     button::{Button, ButtonVariants},
     description_list::DescriptionList,
@@ -25,7 +25,7 @@ impl IconGallery {
     /// Open a Save As dialog for the selected icon and write its SVG to the
     /// chosen path on a background thread, then report success or failure via
     /// a notification. Remembers the destination directory for the next save.
-    pub(super) fn download_svg(&mut self, window: &mut Window, cx: &mut gpui::Context<Self>) {
+    pub(super) fn download_svg(&mut self, window: &mut Window, cx: &mut Context<Self>) {
         let Some(entry) = self.selected_icon.as_ref() else {
             return;
         };
@@ -99,7 +99,7 @@ impl IconGallery {
     }
 
     /// Render the right-side panel showing details of the selected icon.
-    pub(super) fn render_info_panel(&self, cx: &mut gpui::Context<Self>) -> impl IntoElement {
+    pub(super) fn render_info_panel(&self, cx: &mut Context<Self>) -> impl IntoElement {
         let Some(entry) = &self.selected_icon else {
             return div()
                 .w(INFO_PANEL_WIDTH)
@@ -118,7 +118,7 @@ impl IconGallery {
                 .into_any_element();
         };
 
-        let preview_size = gpui::px(256.0);
+        let preview_size = px(256.0);
         let source_label = entry.source.label();
         let path = entry.path.to_string();
         let file_name = file_name_from_path(&path).to_string();

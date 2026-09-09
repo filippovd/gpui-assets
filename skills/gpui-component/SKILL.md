@@ -1,9 +1,12 @@
 ---
 name: gpui-component
-description: How to use the gpui-component UI library in GPUI applications. Use when building UIs with gpui-component components (Button, Input, Select, Dialog, Tabs, Sidebar, List, Table, etc.), setting up the library, handling component state, theming, or finding the right component for a given UI need.
+description: OBSOLETE — gpui-component was rebranded to gpui-kit. Prefer the gpui-kit skill. Kept only for historical reference to the pre-0.6 API.
 ---
 
-## Documentation
+> **Obsolete.** Use the `gpui-kit` skill and https://gpui-kit.com instead.
+> Applications depend on `gpui-kit = "0.6"`; components live under `gpui_kit::component`.
+
+## Documentation (legacy URLs)
 
 - **Full reference**: fetch `https://longbridge.github.io/gpui-component/llms-full.txt`
 - **Per-component API**: fetch `https://longbridge.github.io/gpui-component/docs/components/{name}.md`

@@ -16,7 +16,7 @@ use gpui::{AssetSource, Result, SharedString};
 ///
 /// let registry = AssetsRegistry::new()
 ///     .use_source(LucideAssets)
-///     .fallback(gpui_component_assets::Assets);
+///     .fallback(gpui_kit::assets::Assets);
 /// ```
 pub trait PrefixedAssetSource: AssetSource {
     /// The default prefix used when the source is registered with
@@ -42,7 +42,7 @@ pub trait PrefixedAssetSource: AssetSource {
 ///
 /// let registry = AssetsRegistry::new()
 ///     .use_prefix("lucide", lucide_source)
-///     .fallback(gpui_component_assets::Assets);
+///     .fallback(gpui_kit::assets::Assets);
 ///
 /// // Routed to the "lucide" source as "icon.svg".
 /// registry.load("lucide:icon.svg");

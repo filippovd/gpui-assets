@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a Rust Cargo workspace that builds desktop applications with Zed's `gpui` and the `gpui-component` UI library. The workspace focuses on **asset management**: a prefix-routing registry, a proc-macro for icon enums, and an embedded Lucide icon set.
+This is a Rust Cargo workspace that builds desktop applications with [GPUI Kit](https://gpui-kit.com) (`gpui-kit`). The workspace focuses on **asset management**: a prefix-routing registry, a proc-macro for icon enums, and an embedded Lucide icon set.
 
 ## Workspace Layout
 
@@ -44,14 +44,17 @@ cargo run -p example-gallery
 - Declare all dependencies in the **root** `Cargo.toml` under `[workspace.dependencies]`.
 - Member crates reference them with `{ workspace = true }`.
 - Do not add direct versioned dependencies in member `Cargo.toml` files unless there is a strong reason.
+- Library crates use `gpui` (`package = "gpui-pre"`) and `gpui-component` for `IconNamed` / `Icon`.
+- Application / example crates depend on `gpui-kit` alone (re-exports GPUI, platform, components, assets).
 
 ### Code Style
 
 - Use `edition = "2024"` (declared in `[workspace.package]`).
 - Keep crate APIs minimal and focused.
 - Prefer explicit imports over glob imports in library code; glob imports are acceptable in examples.
-- Import `SharedString` and `IntoElement` from `gpui`, not from `gpui_component`.
-- `IconNamed` is imported from `gpui_component`.
+- Import `SharedString` and `IntoElement` from `gpui` in libraries, or from `gpui_kit` in applications.
+- `IconNamed` is imported from `gpui_component` in icon crates; applications use `gpui_kit::component::IconNamed`.
+- Fallback assets for apps: `gpui_kit::assets::Assets` (not `gpui-component-assets`).
 
 ### Asset Paths
 
@@ -231,7 +234,7 @@ let assets = AssetsRegistry::new()
     .use_source(HeroiconsAssets)
     .use_source(LucideAssets)
     .use_source(MdiAssets)
-    .fallback(gpui_component_assets::Assets);
+    .fallback(gpui_kit::assets::Assets);
 ```
 
 `use_source` is equivalent to `.use_prefix(HEROICONS_PREFIX, HeroiconsAssets)`; the explicit form is still available for custom or override prefixes.
@@ -239,7 +242,7 @@ let assets = AssetsRegistry::new()
 #### 8. Use the icons
 
 ```rust
-use gpui_component::Icon;
+use gpui_kit::component::Icon;
 use gpui_heroicons::icons::HeroiconsIcon;
 
 Icon::new(HeroiconsIcon::ArrowRight);
@@ -267,7 +270,7 @@ Icon::new(HeroiconsIcon::ArrowRight);
 ## Common Pitfalls
 
 - `#[derive(IntoElement)]` requires the type to implement `RenderOnce`. When using `icon_named!`, provide a manual `RenderOnce` impl if the enum needs to be rendered directly.
-- `gpui_component::SharedString` is private; always import `SharedString` from `gpui`.
+- Always import `SharedString` from `gpui` (libraries) or `gpui_kit` (apps), not from component crates.
 - Do not derive `Clone` manually when `icon_named!` already derives it.
 - `RustEmbed` paths must match the paths produced by `icon_named!` after prefix stripping. In `gpui-lucide` the embedded folder is `assets/icons` and included files are flat (`*.svg`), so embedded paths are just file names.
 
@@ -281,3 +284,4 @@ Icon::new(HeroiconsIcon::ArrowRight);
 
 - **gpui-kit** (`skills/`) - Building applications on the `gpui-kit` crate: setup, component catalog, stateless/stateful patterns, theming, GPUI mechanics (actions, async, contexts, custom elements, entities, events, focus, global state, layout, `ElementId`, testing), and the normative Coding Guides
 - **gpui-kit-design-guides** (`skills/`) - The normative Design Guides; load before any UI, layout, interaction, or interface-copy work
+- **gpui-component** (`skills/`) - Obsolete name for the pre-rebrand docs; prefer **gpui-kit**

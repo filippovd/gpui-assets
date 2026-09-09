@@ -15,8 +15,5 @@ gpui-lucide = { workspace = true }
 gpui-mdi = { workspace = true }
 gpui-assets-utils = { workspace = true }
 
-gpui = { workspace = true }
-gpui_platform = { workspace = true }
-gpui-component = { workspace = true }
-gpui-component-assets = { workspace = true }
+gpui-kit = { workspace = true }
 nucleo-matcher = { workspace = true }

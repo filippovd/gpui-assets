@@ -1,8 +1,8 @@
 //! The "About" entry in the title bar: a right-aligned button that opens a
 //! centered modal `Dialog` describing the application.
 
-use gpui::*;
-use gpui_component::{
+use gpui_kit::*;
+use gpui_kit::component::{
     ActiveTheme as _, Sizable as _,
     button::{Button, ButtonVariants as _},
     description_list::DescriptionList,
@@ -18,7 +18,7 @@ const VERSION: &str = env!("CARGO_PKG_VERSION");
 /// Render the About button + dialog. The button is meant to be the second
 /// child of the title bar's `justify_between` row, so it lands at the right
 /// edge (left of the native window controls).
-pub(super) fn render_about(cx: &mut App) -> impl gpui::IntoElement {
+pub(super) fn render_about(cx: &mut App) -> impl IntoElement {
     Dialog::new(cx)
         .trigger(
             Button::new("about")
@@ -48,7 +48,7 @@ pub(super) fn render_about(cx: &mut App) -> impl gpui::IntoElement {
                         .child(
                             DialogDescription::new().child(
                                 "A searchable, filterable gallery of icons from every registered \
-                                 asset source: Lucide, MDI, and the gpui-component fallback set.",
+                                 asset source: Lucide, MDI, and the gpui-kit fallback set.",
                             ),
                         )
                         .child(
@@ -56,7 +56,7 @@ pub(super) fn render_about(cx: &mut App) -> impl gpui::IntoElement {
                                 .bordered(true)
                                 .columns(1)
                                 .item("UI Framework", "Zed gpui", 1)
-                                .item("Components", "gpui-component", 1)
+                                .item("Components", "gpui-kit", 1)
                                 .item("Icons", "Lucide + Material Design Icons (MDI)", 1),
                         ),
                 )

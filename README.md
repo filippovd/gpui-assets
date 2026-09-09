@@ -1,6 +1,6 @@
 # gpui-assets
 
-A Cargo workspace for building desktop applications with [Zed GPUI](https://github.com/zed-industries/zed) and [gpui-component](https://github.com/longbridge/gpui-component). It provides a modular asset-management layer, an embedded Lucide icon set, and reusable UI examples.
+A Cargo workspace for building desktop applications with [GPUI Kit](https://gpui-kit.com) (`gpui-kit`). It provides a modular asset-management layer, an embedded Lucide icon set, and reusable UI examples.
 
 ![Icon Gallery](gallery.png)
 
@@ -17,7 +17,7 @@ gpui-assets/
 │   ├── lucide/                # Embedded Lucide icons + generated icon enum
 │   └── mdi/                   # Embedded Material Design Icons + generated icon enum
 ├── examples/
-│   ├── example-assets/        # Minimal GPUI window example
+│   ├── example-assets/        # Minimal GPUI Kit window example
 │   ├── example-gallery/       # Gallery of icons from all sources with search and source filter
 │   └── example-custom-prefix/ # Custom asset sources registered under non-default prefixes
 └── README.md / AGENTS.md
@@ -64,13 +64,13 @@ cargo test --workspace
 ## Using Icons
 
 ```rust
-use gpui_component::Icon;
+use gpui_kit::component::Icon;
 use gpui_lucide::icons::LucideIcon;
 
 Icon::new(LucideIcon::Pin);
 ```
 
-To wire assets into a GPUI application:
+To wire assets into a GPUI Kit application:
 
 ```rust
 use gpui_assets::AssetsRegistry;
@@ -80,9 +80,9 @@ use gpui_mdi::MdiAssets;
 let assets = AssetsRegistry::new()
     .use_source(LucideAssets)
     .use_source(MdiAssets)
-    .fallback(gpui_component_assets::Assets);
+    .fallback(gpui_kit::assets::Assets);
 
-let app = gpui_platform::application().with_assets(assets);
+let app = gpui_kit::application().with_assets(assets);
 ```
 
 ## Using in External Applications
@@ -95,17 +95,14 @@ gpui-assets = { git = "https://github.com/filippovd/gpui-assets" }
 gpui-lucide = { git = "https://github.com/filippovd/gpui-assets" }
 gpui-mdi = { git = "https://github.com/filippovd/gpui-assets" }
 
-gpui = { git = "https://github.com/zed-industries/zed" }
-gpui_platform = { git = "https://github.com/zed-industries/zed", features = ["font-kit", "wayland", "x11"] }
-gpui-component = { git = "https://github.com/longbridge/gpui-component" }
-gpui-component-assets = { git = "https://github.com/longbridge/gpui-component" }
+gpui-kit = "0.6"
 ```
 
 Then wire the registry and use icons as shown above:
 
 ```rust
 use gpui_assets::AssetsRegistry;
-use gpui_component::Icon;
+use gpui_kit::component::Icon;
 use gpui_lucide::{LucideAssets, icons::LucideIcon};
 use gpui_mdi::{MdiAssets, icons::MdiIcon};
 
@@ -113,12 +110,12 @@ fn main() {
     let assets = AssetsRegistry::new()
         .use_source(LucideAssets)
         .use_source(MdiAssets)
-        .fallback(gpui_component_assets::Assets);
+        .fallback(gpui_kit::assets::Assets);
 
-    let app = gpui_platform::application().with_assets(assets);
+    let app = gpui_kit::application().with_assets(assets);
 
     app.run(|cx| {
-        gpui_component::init(cx);
+        gpui_kit::init(cx);
         // open windows, render Icon::new(LucideIcon::Pin), etc.
     });
 }
@@ -204,7 +201,7 @@ The `gpui-lucide` and `gpui-mdi` crates demonstrate the full pattern for adding 
 
    let assets = AssetsRegistry::new()
        .use_source(HeroiconsAssets)
-       .fallback(gpui_component_assets::Assets);
+       .fallback(gpui_kit::assets::Assets);
    ```
 
 The generated icon enum implements `IconNamed`, so each variant maps to a prefixed path like `heroicons:/arrow-right.svg`. `AssetsRegistry` routes such paths to the registered source and forwards unprefixed paths to the fallback. `use_source` is shorthand for `.use_prefix(HEROICONS_PREFIX, HeroiconsAssets)`.
@@ -221,10 +218,9 @@ All dependencies are declared in the root `Cargo.toml` under `[workspace.depende
 
 Key dependencies:
 
-- `gpui` — Zed's GPU-accelerated UI framework (git).
-- `gpui_platform` — Platform backend for `gpui` (git).
-- `gpui-component` — Component library for GPUI (git).
-- `gpui-component-assets` — Default bundled assets for gpui-component (git).
+- `gpui` (`gpui-pre`) — GPUI UI framework from crates.io (libraries).
+- `gpui-component` — Styled component layer used by icon crates for `IconNamed` / `Icon`.
+- `gpui-kit` — Application facade that re-exports GPUI, platform, components, and default assets.
 - `rust-embed` — Compile-time asset embedding.
 
 ## License

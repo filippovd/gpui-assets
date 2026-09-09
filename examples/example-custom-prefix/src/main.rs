@@ -1,5 +1,5 @@
-use gpui::*;
-use gpui_component::{
+use gpui_kit::*;
+use gpui_kit::component::{
     button::{Button, ButtonVariants as _},
     *,
 };
@@ -60,11 +60,11 @@ fn main() {
     let assets = gpui_assets::AssetsRegistry::new()
         .use_source(CustomLucideAssets)
         .use_source(CustomMdiAssets)
-        .fallback(gpui_component_assets::Assets);
-    let app = gpui_platform::application().with_assets(assets);
+        .fallback(gpui_kit::assets::Assets);
+    let app = gpui_kit::application().with_assets(assets);
 
     app.run(move |cx| {
-        gpui_component::init(cx);
+        gpui_kit::init(cx);
 
         cx.spawn(async move |cx| {
             cx.open_window(WindowOptions::default(), |window, cx| {

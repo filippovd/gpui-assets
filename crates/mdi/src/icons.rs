@@ -5,10 +5,10 @@ use gpui_component::IconNamed;
 // Auto-generated enum of bundled Material Design Icons.
 //
 // Each variant corresponds to an `.svg` file in `assets/icons` and implements
-// [`IconNamed`], so it can be used directly with [`gpui_component::Icon`].
+// [`IconNamed`], so it can be used directly with [`gpui_kit::component::Icon`].
 //
 // ```ignore
-// use gpui_component::Icon;
+// use gpui_kit::component::Icon;
 // use gpui_mdi::icons::MdiIcon;
 //
 // Icon::new(MdiIcon::Check);

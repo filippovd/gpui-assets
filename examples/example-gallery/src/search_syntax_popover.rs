@@ -1,11 +1,11 @@
 //! A small standalone component that exposes a button-triggered popover
 //! explaining the fzf-style search syntax used by the icon gallery.
 
-use gpui::{
+use gpui_kit::{
     Anchor, Context, InteractiveElement as _, IntoElement, KeyBinding, ParentElement as _, Render,
-    Styled, Window, actions, div,
+    Styled, Window, actions, div, px,
 };
-use gpui_component::{
+use gpui_kit::component::{
     Sizable, StyledExt,
     button::{Button, ButtonVariants},
     description_list::DescriptionList,
@@ -51,7 +51,7 @@ impl SearchSyntaxPopover {
         div()
             .v_flex()
             .gap_3()
-            .w(gpui::px(320.0))
+            .w(px(320.0))
             .p_2()
             .child("The search box supports a small fzf-like query language:")
             .child(

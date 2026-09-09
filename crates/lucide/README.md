@@ -1,6 +1,6 @@
 # gpui-lucide
 
-Embedded [Lucide](https://lucide.dev/) icons for [Zed GPUI](https://github.com/zed-industries/zed) and [gpui-component](https://github.com/longbridge/gpui-component).
+Embedded [Lucide](https://lucide.dev/) icons for [GPUI Kit](https://gpui-kit.com) (`gpui-kit`).
 
 This crate bundles SVG icons at compile time via [`rust-embed`](https://github.com/pyrossh/rust-embed) and exposes them as:
 
@@ -13,7 +13,7 @@ This crate bundles SVG icons at compile time via [`rust-embed`](https://github.c
 ### As an icon
 
 ```rust
-use gpui_component::Icon;
+use gpui_kit::component::Icon;
 use gpui_lucide::icons::LucideIcon;
 
 Icon::new(LucideIcon::Check);
@@ -27,7 +27,7 @@ use gpui_lucide::LucideAssets;
 
 let assets = AssetsRegistry::new()
     .use_source(LucideAssets)
-    .fallback(gpui_component_assets::Assets);
+    .fallback(gpui_kit::assets::Assets);
 ```
 
 Each variant implements `IconNamed`, so `LucideIcon::Check.path()` returns `lucide:/check.svg`. `AssetsRegistry` routes prefixed paths to the corresponding source.

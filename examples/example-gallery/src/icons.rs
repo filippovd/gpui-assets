@@ -6,7 +6,7 @@
 
 use std::sync::Arc;
 
-use gpui::SharedString;
+use gpui_kit::SharedString;
 use gpui_assets_utils::pascal_case_name;
 use gpui_lucide::{LUCIDE_PREFIX, LucideAssets};
 use gpui_mdi::{MDI_PREFIX, MdiAssets};
@@ -90,7 +90,7 @@ pub fn all_icons() -> Vec<IconEntry> {
         });
     }
 
-    for path in gpui_component_assets::Assets::iter() {
+    for path in gpui_kit::assets::Assets::iter() {
         let path_str = path.as_ref();
         let filename = path_str.rsplit('/').next().unwrap_or(path_str);
         let variant_name = pascal_case_name(filename);
