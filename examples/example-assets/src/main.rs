@@ -173,10 +173,10 @@ fn main() {
         gpui_kit::init(cx);
 
         cx.spawn(async move |cx| {
-            cx.open_window(WindowOptions::default(), |window, cx| {
-                let view = cx.new(|_| IconDemo);
-                // The first-level view in every window must be a Root.
-                cx.new(|cx| Root::new(view, window, cx))
+            cx.update(|cx| {
+                gpui_kit::open_window(WindowOptions::default(), cx, |_, cx| {
+                    cx.new(|_| IconDemo)
+                })
             })
             .expect("Failed to open window");
         })

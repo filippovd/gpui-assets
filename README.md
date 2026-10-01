@@ -95,7 +95,7 @@ gpui-assets = { git = "https://github.com/filippovd/gpui-assets" }
 gpui-lucide = { git = "https://github.com/filippovd/gpui-assets" }
 gpui-mdi = { git = "https://github.com/filippovd/gpui-assets" }
 
-gpui-kit = "0.6"
+gpui-kit = "0.7"
 ```
 
 Then wire the registry and use icons as shown above:

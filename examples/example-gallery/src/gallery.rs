@@ -15,7 +15,7 @@ use std::time::Duration;
 use gpui_kit::prelude::FluentBuilder;
 use gpui_kit::*;
 use gpui_kit::component::{
-    ActiveTheme, Icon, Root, Selectable, Sizable, StyledExt, Theme, ThemeMode, TitleBar,
+    ActiveTheme, Icon, Selectable, Sizable, StyledExt, Theme, ThemeMode, TitleBar,
     button::{Button, ButtonGroup, ButtonVariants},
     input::{Input, InputState},
     radio::RadioGroup,
@@ -560,9 +560,6 @@ impl Render for IconGallery {
                         ))
                     }),
             )
-            .children(Root::render_dialog_layer(window, cx))
-            .children(Root::render_sheet_layer(window, cx))
-            .children(Root::render_notification_layer(window, cx))
             .into_any_element()
     }
 }

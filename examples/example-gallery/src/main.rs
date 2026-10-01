@@ -6,7 +6,7 @@ mod icons;
 mod search_syntax_popover;
 
 use gpui_kit::*;
-use gpui_kit::component::{Root, TitleBar};
+use gpui_kit::component::TitleBar;
 use gpui_lucide::LucideAssets;
 use gpui_mdi::MdiAssets;
 
@@ -30,9 +30,10 @@ fn main() {
                 window_bounds,
                 ..Default::default()
             };
-            cx.open_window(window_options, |window, cx| {
-                let view = cx.new(|cx| IconGallery::new(window, cx));
-                cx.new(|cx| Root::new(view, window, cx))
+            cx.update(|cx| {
+                gpui_kit::open_window(window_options, cx, |window, cx| {
+                    cx.new(|cx| IconGallery::new(window, cx))
+                })
             })
             .expect("Failed to open window");
         })

@@ -67,9 +67,10 @@ fn main() {
         gpui_kit::init(cx);
 
         cx.spawn(async move |cx| {
-            cx.open_window(WindowOptions::default(), |window, cx| {
-                let view = cx.new(|_| CustomPrefixDemo);
-                cx.new(|cx| Root::new(view, window, cx))
+            cx.update(|cx| {
+                gpui_kit::open_window(WindowOptions::default(), cx, |_, cx| {
+                    cx.new(|_| CustomPrefixDemo)
+                })
             })
             .expect("Failed to open window");
         })
