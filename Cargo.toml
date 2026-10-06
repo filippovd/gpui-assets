@@ -13,7 +13,7 @@ members = [
 
 [workspace.package]
 edition = "2024"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Dmitry Filippov <filippov.dmitry@gmail.com>"]
 description = "It provides a modular asset-management layer, an embedded Lucide icon set, and reusable UI examples."
 keywords = ["gpui", "assets", "icons", "lucide", "mdi"]
@@ -26,20 +26,20 @@ publish = false
 #
 # Workspace member crates
 #
-gpui-assets = { path = "crates/assets", version = "0.2.0" }
-gpui-assets-macros = { path = "crates/macros", version = "0.2.0" }
-gpui-lucide = { path = "crates/lucide", version = "0.2.0" }
-gpui-mdi = { path = "crates/mdi", version = "0.2.0" }
-gpui-assets-utils = { path = "crates/utils", version = "0.2.0" }
+gpui-assets = { path = "crates/assets", version = "0.2.1" }
+gpui-assets-macros = { path = "crates/macros", version = "0.2.1" }
+gpui-lucide = { path = "crates/lucide", version = "0.2.1" }
+gpui-mdi = { path = "crates/mdi", version = "0.2.1" }
+gpui-assets-utils = { path = "crates/utils", version = "0.2.1" }
 
 #
 # External crates
 #
 # Libraries: thin GPUI + IconNamed
-gpui = { package = "gpui-pre", version = "0.3.7" }
-gpui-component = "0.7.0"
+gpui = { package = "gpui-pre", version = "0.3.8" }
+gpui-component = "0.7.1"
 # Applications / examples: one facade (re-exports gpui, platform, component, assets)
-gpui-kit = "0.7.0"
+gpui-kit = "0.7.1"
 rust-embed = { version = "8", features = ["interpolate-folder-path"] }
 nucleo-matcher = "0.3.1"
 anyhow = "1"
